@@ -1,0 +1,26 @@
+{
+  "name": "sportfinder",
+  "version": "1.0.0",
+  "description": "SportFinder is a web-based system that helps users find sports equipment available in sports shops across Sri Lanka based on product name and district. The system uses Node.js, Express.js, MongoDB, and REST APIs to manage shops, products, and product availability efficiently.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thisuri-a11y/sportFinder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/thisuri-a11y/sportFinder/issues"
+  },
+  "homepage": "https://github.com/thisuri-a11y/sportFinder#readme",
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "mongoose": "^9.6.2",
+    "nodemon": "^3.1.14"
+  }
+}
