@@ -1,34 +1,41 @@
-//test
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
 
 import shopRoute from "./Route/shopRoute.js";
 import productRoute from "./Route/productRoute.js";
 
 const app = express();
 
-app.use(bodyParser.json());
-
-dotenv.config();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 8000;
 const MONGOURL = process.env.MONGO_URL;
 
-mongoose.connect(MONGOURL)
-.then(()=>{
+if (!MONGOURL) {
+    console.error("Missing MONGO_URL in environment. Set it in a .env file.");
+    process.exit(1);
+}
 
-    console.log("Database connected successfully.");
+app.use("/api/shop", shopRoute);
+app.use("/api/product", productRoute);
 
-    app.listen(PORT,()=>{
+app.use((req, res) => {
+    res.status(404).json({ error: "Not found." });
+});
 
-        console.log(`Server is running on port : ${PORT}`);
-
+mongoose
+    .connect(MONGOURL)
+    .then(() => {
+        console.log("Database connected successfully.");
+        app.listen(PORT, () => {
+            console.log(`Server is running on port : ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
     });
-
-})
-.catch((error)=> console.log(error));
-
-app.use("/api/shop",shopRoute);
-app.use("/api/product",productRoute);
