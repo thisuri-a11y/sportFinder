@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap");
+
+:root {
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --surface: #0f172a;
+  --surface-elevated: #1e293b;
+  --border: #334155;
+  --border-strong: #475569;
+  --accent: #2dd4bf;
+  --accent-dim: #14b8a6;
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --accent-glow: rgba(45, 212, 191, 0.25);
+  --chip-bg: rgba(148, 163, 184, 0.12);
+  --success: #4ade80;
+  --success-bg: rgba(74, 222, 128, 0.12);
+  --danger: #fb7185;
+  --danger-bg: rgba(251, 113, 133, 0.12);
+
+  font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text);
+  background-color: var(--surface);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
