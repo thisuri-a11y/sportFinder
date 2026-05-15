@@ -3,12 +3,19 @@ dotenv.config();
 
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import shopRoute from "./Route/shopRoute.js";
 import productRoute from "./Route/productRoute.js";
 
 const app = express();
 
+app.use(
+    cors({
+        origin: process.env.CLIENT_ORIGIN?.split(",") ?? true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
