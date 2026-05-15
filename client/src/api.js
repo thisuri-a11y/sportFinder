@@ -43,12 +43,24 @@ export async function createShop(payload) {
   return res.json();
 }
 
+export async function deleteShop(id) {
+  const res = await fetch(url(`/api/shop/delete/${id}`), { method: "DELETE" });
+  if (!res.ok) throw new Error(await readErrorMessage(res));
+  return res.json();
+}
+
 export async function createProduct(payload) {
   const res = await fetch(url("/api/product/create"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
+  if (!res.ok) throw new Error(await readErrorMessage(res));
+  return res.json();
+}
+
+export async function deleteProduct(id) {
+  const res = await fetch(url(`/api/product/delete/${id}`), { method: "DELETE" });
   if (!res.ok) throw new Error(await readErrorMessage(res));
   return res.json();
 }

@@ -5,6 +5,8 @@ import {
   getAllProducts,
   createShop,
   createProduct,
+  deleteShop,
+  deleteProduct,
 } from "./api";
 import "./App.css";
 
@@ -64,6 +66,8 @@ export default function App() {
     availability: true,
   });
   const [ownerMessage, setOwnerMessage] = useState("");
+  const [deletingShopId, setDeletingShopId] = useState(null);
+  const [deletingProductId, setDeletingProductId] = useState(null);
 
   const runSearch = async (e) => {
     e?.preventDefault();
@@ -96,6 +100,32 @@ export default function App() {
       setLoading(false);
     }
   }, []);
+
+  const onDeleteShop = async (id) => {
+    setError("");
+    setDeletingShopId(id);
+    try {
+      await deleteShop(id);
+      setShops((prev) => prev.filter((s) => s._id !== id));
+    } catch (err) {
+      setError(err.message || "Could not delete shop.");
+    } finally {
+      setDeletingShopId(null);
+    }
+  };
+
+  const onDeleteProduct = async (id) => {
+    setError("");
+    setDeletingProductId(id);
+    try {
+      await deleteProduct(id);
+      setProducts((prev) => prev.filter((p) => p._id !== id));
+    } catch (err) {
+      setError(err.message || "Could not delete product.");
+    } finally {
+      setDeletingProductId(null);
+    }
+  };
 
   const loadCatalog = useCallback(async () => {
     setError("");
@@ -301,15 +331,43 @@ export default function App() {
             )}
             <ul className="list">
               {shops.map((s) => (
-                <li key={s._id} className="list__item">
-                  <div>
-                    <strong>{s.shopName}</strong>
-                    <span className="list__district">{s.district}</span>
+                <li key={s._id} className="list__item list__item--with-action">
+                  <div className="list__item-body">
+                    <div>
+                      <strong>{s.shopName}</strong>
+                      <span className="list__district">{s.district}</span>
+                    </div>
+                    <p className="list__address">{s.address}</p>
+                    <a className="list__phone" href={`tel:${s.contactNumber}`}>
+                      {s.contactNumber}
+                    </a>
                   </div>
-                  <p className="list__address">{s.address}</p>
-                  <a className="list__phone" href={`tel:${s.contactNumber}`}>
-                    {s.contactNumber}
-                  </a>
+                  <button
+                    type="button"
+                    className="icon-btn icon-btn--delete"
+                    aria-label={`Delete ${s.shopName}`}
+                    title="Delete shop"
+                    disabled={deletingShopId === s._id}
+                    onClick={() => onDeleteShop(s._id)}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M3 6h18" />
+                      <path d="M8 6V4h8v2" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                      <path d="M10 11v6" />
+                      <path d="M14 11v6" />
+                    </svg>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -336,6 +394,32 @@ export default function App() {
                 <li key={p._id} className="card card--compact">
                   <div className="card__top">
                     <span className="pill pill--category">{p.category}</span>
+                    <button
+                      type="button"
+                      className="icon-btn icon-btn--delete"
+                      aria-label={`Delete ${p.productName}`}
+                      title="Delete product"
+                      disabled={deletingProductId === p._id}
+                      onClick={() => onDeleteProduct(p._id)}
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <path d="M3 6h18" />
+                        <path d="M8 6V4h8v2" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                      </svg>
+                    </button>
                   </div>
                   <h4 className="card__title">{p.productName}</h4>
                   <p className="card__brand">{p.brand}</p>

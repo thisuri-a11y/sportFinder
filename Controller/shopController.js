@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Shop from "../Model/shopModel.js";
+import Product from "../Model/productModel.js";
 
 function sendError(res, error) {
     if (error?.name === "ValidationError") {
@@ -68,6 +69,7 @@ export const deleteShop = async (req, res) => {
             return res.status(404).json({ message: "Shop not found." });
         }
 
+        await Product.deleteMany({ shopId: id });
         await Shop.findByIdAndDelete(id);
         res.status(200).json({ message: "Shop deleted successfully." });
     } catch (error) {
